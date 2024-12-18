@@ -33,7 +33,7 @@
               <td>{{ book.author }}</td>
               <td>{{ book.publisher }}</td>
               <td class="action-buttons">
-                <button class="btn btn-warning btn-sm" @click="editBook(book)">Edit</button>
+                <button class="btn btn-warning btn-sm me-2" @click="editBook(book)">Edit</button>
                 <button class="btn btn-danger btn-sm" @click="deleteBook(book)">Delete</button>
               </td>
             </tr>
@@ -104,14 +104,12 @@
         </div>
       </div>
   
-      <!-- Tab for editing a book -->
       <div v-if="showTab === 'edit' && editingBook">
         <div class="container py-4 d-flex justify-content-center">
           <div class="card" style="width: 50rem;">
             <div class="card-body">
               <h1 class="title mb-4">Edit Book</h1>
   
-              <!-- Formulario de edición de libro -->
               <form @submit.prevent="updateBook" class="needs-validation" novalidate>
                 <div class="mb-3 row">
                   <label for="title" class="col-sm-2 col-form-label">Title</label>
@@ -188,7 +186,7 @@
       };
     },
     async mounted() {
-      const response = await fetch(`${this.$url}/.netlify/functions/books`);
+      const response = await fetch('/.netlify/functions/books');
       this.books = await response.json();
     },
     methods: {
@@ -199,7 +197,7 @@
         this.showTab = 'table';
       },
       async createBook() {
-        const response = await fetch(`${this.$url}/.netlify/functions/books`, {
+        const response = await fetch('/.netlify/functions/books', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -229,7 +227,7 @@
         this.editingBook = null;
       },
       async updateBook() {
-        const response = await fetch(`${this.$url}/.netlify/functions/books/${this.editingBook.id}`, {
+        const response = await fetch(`/.netlify/functions/books/${this.editingBook.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -245,7 +243,7 @@
         this.cancelEdit();
       },
       async deleteBook(book) {
-        const response = await fetch(`${this.$url}/.netlify/functions/books/${book.id}`, {
+        const response = await fetch(`/.netlify/functions/books/${book.id}`, {
           method: 'DELETE',
         });
   

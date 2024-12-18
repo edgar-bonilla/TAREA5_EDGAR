@@ -131,15 +131,15 @@
     data() {
       return {
         authors: [], 
-        newAuthor: { name: '', nationality: '', birth_year: null, fields: '' },
-        editingAuthor: null,
+        newAuthor: { name: '', nationality: '', birth_year: null, fields: '' }, 
+        editingAuthor: null, 
         showTab: 'table', 
       };
     },
     async mounted() {
       try {
-      
-        const response = await fetch(`${this.$url}/.netlify/functions/authors`);
+        // Fetch the authors from the backend
+        const response = await fetch('/.netlify/functions/authors');
         this.authors = await response.json();
       } catch (error) {
         console.error("Error fetching authors:", error);
@@ -153,9 +153,10 @@
         this.showTab = 'table';
       },
       async createAuthor() {
+        // Add logic to parse fields from the input string
         this.newAuthor.fields = this.newAuthor.fields.split(',').map(field => field.trim());
         
-        const response = await fetch(`${this.$url}/.netlify/functions/authors`, {
+        const response = await fetch('/.netlify/functions/authors', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -179,7 +180,7 @@
       async updateAuthor() {
         this.editingAuthor.fields = this.editingAuthor.fields.split(',').map(field => field.trim());
   
-        const response = await fetch(`${this.$url}/.netlify/functions/authors/${this.editingAuthor.id}`, {
+        const response = await fetch(`/.netlify/functions/authors/${this.editingAuthor.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -195,7 +196,7 @@
         this.cancelEdit();
       },
       async deleteAuthor(author) {
-        const response = await fetch(`${this.$url}/.netlify/functions/authors/${author.id}`, {
+        const response = await fetch(`/.netlify/functions/authors/${author.id}`, {
           method: 'DELETE',
         });
   

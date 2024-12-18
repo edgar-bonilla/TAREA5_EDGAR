@@ -69,6 +69,7 @@
         </div>
       </div>
   
+
       <div v-if="showTab === 'edit' && editingPublisher">
         <div class="container py-4 d-flex justify-content-center">
           <div class="card" style="width: 50rem;">
@@ -126,7 +127,7 @@
     methods: {
       async fetchPublishers() {
         try {
-          const response = await fetch(`${this.$url}/.netlify/functions/publishers`);
+          const response = await fetch('/.netlify/functions/publishers');
           if (response.ok) {
             this.publishers = await response.json();
           } else {
@@ -138,7 +139,7 @@
       },
       async createPublisher() {
         try {
-          const response = await fetch(`${this.$url}/.netlify/functions/publishers`, {
+          const response = await fetch('/.netlify/functions/publishers', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -158,7 +159,7 @@
       },
       async updatePublisher() {
         try {
-          const response = await fetch(`${this.$url}/.netlify/functions/publishers/` + this.editingPublisher.id, {
+          const response = await fetch('/.netlify/functions/publishers/' + this.editingPublisher.id, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -178,7 +179,7 @@
       },
       async deletePublisher(publisher) {
         try {
-          const response = await fetch(`${this.$url}/.netlify/functions/publishers/` + publisher.id, {
+          const response = await fetch('/.netlify/functions/publishers/' + publisher.id, {
             method: 'DELETE',
           });
           if (response.ok) {
@@ -209,6 +210,7 @@
   </script>
   
   <style scoped>
+
   .action-buttons button {
     margin-right: 5px;
   }
