@@ -4,11 +4,11 @@
       <h2 class="text-center mb-4">Iniciar sesión</h2>
       <form @submit.prevent="login">
         <div class="mb-3">
-          <label for="email" class="form-label">Correo Electrónico</label>
+          <label for="email" class="form-label d-flex justify-content-start">Correo Electrónico</label>
           <input v-model="email" type="email" class="form-control" id="email" placeholder="Ingrese su email" required />
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
+          <label for="password" class="form-label d-flex justify-content-start">Contraseña</label>
           <input v-model="password" type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required />
         </div>
         <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
@@ -21,8 +21,8 @@
 export default {
   data() {
     return {
-      email: 'admin@example.com',
-      password: '12345',
+      email: '', 
+      password: '', 
     };
   },
   created() {
@@ -37,7 +37,7 @@ export default {
         const response = await fetch('/.netlify/functions/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: this.email, password: this.password }),
+          body: JSON.stringify({ email: this.email, password: this.password }), 
         });
 
         if (response.ok) {
@@ -53,6 +53,7 @@ export default {
     getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
+
       if (parts.length === 2) return parts.pop().split(';').shift();
     },
   },
@@ -60,7 +61,6 @@ export default {
 </script>
 
 <style scoped>
-/* Se eliminó casi todo el CSS personalizado */
 
 body {
   font-family: 'Arial', sans-serif;
