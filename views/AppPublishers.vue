@@ -3,7 +3,6 @@
       <br><br><br>
       <h1 class="title mb-4">Publishers</h1>
   
-      <!-- Botón para mostrar el formulario de creación -->
       <div v-if="showTab === 'table'">
         <div class="d-flex justify-content-end">
           <button class="btn btn-success mb-4" @click="showCreateForm">Create Publisher</button>
@@ -26,7 +25,7 @@
               <td>{{ publisher.country }}</td>
               <td>{{ publisher.founded_year }}</td>
               <td class="action-buttons">
-                <button class="btn btn-warning btn-sm" @click="editPublisher(publisher)">Edit</button>
+                <button class="btn btn-warning btn-sm me-2" @click="editPublisher(publisher)">Edit</button>
                 <button class="btn btn-danger btn-sm" @click="deletePublisher(publisher)">Delete</button>
               </td>
             </tr>
@@ -70,7 +69,6 @@
         </div>
       </div>
   
-      <!-- Tab para editar un publisher -->
       <div v-if="showTab === 'edit' && editingPublisher">
         <div class="container py-4 d-flex justify-content-center">
           <div class="card" style="width: 50rem;">
@@ -128,7 +126,7 @@
     methods: {
       async fetchPublishers() {
         try {
-          const response = await fetch('/.netlify/functions/publishers');
+          const response = await fetch(`${this.$url}/.netlify/functions/publishers`);
           if (response.ok) {
             this.publishers = await response.json();
           } else {
@@ -140,7 +138,7 @@
       },
       async createPublisher() {
         try {
-          const response = await fetch('/.netlify/functions/publishers', {
+          const response = await fetch(`${this.$url}/.netlify/functions/publishers`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -160,7 +158,7 @@
       },
       async updatePublisher() {
         try {
-          const response = await fetch('/.netlify/functions/publishers/' + this.editingPublisher.id, {
+          const response = await fetch(`${this.$url}/.netlify/functions/publishers/` + this.editingPublisher.id, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -180,7 +178,7 @@
       },
       async deletePublisher(publisher) {
         try {
-          const response = await fetch('/.netlify/functions/publishers/' + publisher.id, {
+          const response = await fetch(`${this.$url}/.netlify/functions/publishers/` + publisher.id, {
             method: 'DELETE',
           });
           if (response.ok) {
@@ -211,7 +209,6 @@
   </script>
   
   <style scoped>
-  /* Aquí puedes agregar estilos específicos para el componente */
   .action-buttons button {
     margin-right: 5px;
   }

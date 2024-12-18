@@ -3,12 +3,11 @@
       <br><br><br>
       <h1 class="title mb-4">Authors</h1>
   
-      <!-- Botón para mostrar el formulario de creación -->
+    
       <div class="d-flex justify-content-end mb-4">
         <button class="btn btn-success" @click="showCreateForm">Create Author</button>
       </div>
   
-      <!-- Pestaña para mostrar la tabla de autores -->
       <div v-if="showTab === 'table'">
         <table class="table table-bordered table-hover">
           <thead class="table-dark">
@@ -29,7 +28,7 @@
               <td>{{ author.birth_year }}</td>
               <td>{{ author.fields.join(', ') }}</td>
               <td class="action-buttons">
-                <button class="btn btn-warning btn-sm" @click="editAuthor(author)">Edit</button>
+                <button class="btn btn-warning btn-sm me-2" @click="editAuthor(author)">Edit</button>
                 <button class="btn btn-danger btn-sm" @click="deleteAuthor(author)">Delete</button>
               </td>
             </tr>
@@ -37,14 +36,14 @@
         </table>
       </div>
   
-      <!-- Pestaña para crear un autor -->
+  <br><br>
       <div v-if="showTab === 'create'">
         <div class="container py-4 d-flex justify-content-center">
           <div class="card" style="width: 50rem;">
             <div class="card-body">
               <h1 class="title mb-4">Create Author</h1>
   
-              <!-- Formulario para crear autor -->
+          
               <form @submit.prevent="createAuthor" class="needs-validation" novalidate>
                 <div class="mb-3 row">
                   <label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -81,14 +80,13 @@
         </div>
       </div>
   
-      <!-- Pestaña para editar un autor -->
+ 
       <div v-if="showTab === 'edit' && editingAuthor">
         <div class="container py-4 d-flex justify-content-center">
           <div class="card" style="width: 50rem;">
             <div class="card-body">
               <h1 class="title mb-4">Edit Author</h1>
-  
-              <!-- Formulario de edición de autor -->
+       
               <form @submit.prevent="updateAuthor" class="needs-validation" novalidate>
                 <div class="mb-3 row">
                   <label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -132,16 +130,16 @@
   export default {
     data() {
       return {
-        authors: [], // Holds the list of authors
-        newAuthor: { name: '', nationality: '', birth_year: null, fields: '' }, // For the create form
-        editingAuthor: null, // For the edit form
-        showTab: 'table', // Toggles between table, create, and edit tabs
+        authors: [], 
+        newAuthor: { name: '', nationality: '', birth_year: null, fields: '' },
+        editingAuthor: null,
+        showTab: 'table', 
       };
     },
     async mounted() {
       try {
-        // Fetch the authors from the backend
-        const response = await fetch('/.netlify/functions/authors');
+      
+        const response = await fetch(`${this.$url}/.netlify/functions/authors`);
         this.authors = await response.json();
       } catch (error) {
         console.error("Error fetching authors:", error);
@@ -155,10 +153,9 @@
         this.showTab = 'table';
       },
       async createAuthor() {
-        // Add logic to parse fields from the input string
         this.newAuthor.fields = this.newAuthor.fields.split(',').map(field => field.trim());
         
-        const response = await fetch('/.netlify/functions/authors', {
+        const response = await fetch(`${this.$url}/.netlify/functions/authors`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -182,7 +179,7 @@
       async updateAuthor() {
         this.editingAuthor.fields = this.editingAuthor.fields.split(',').map(field => field.trim());
   
-        const response = await fetch(`/.netlify/functions/authors/${this.editingAuthor.id}`, {
+        const response = await fetch(`${this.$url}/.netlify/functions/authors/${this.editingAuthor.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -198,7 +195,7 @@
         this.cancelEdit();
       },
       async deleteAuthor(author) {
-        const response = await fetch(`/.netlify/functions/authors/${author.id}`, {
+        const response = await fetch(`${this.$url}/.netlify/functions/authors/${author.id}`, {
           method: 'DELETE',
         });
   
